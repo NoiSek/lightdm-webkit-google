@@ -24,11 +24,14 @@ I created this for use on Arch Linux on my HP Chromebook 11, so it only has the 
 Instructions will differ for every platform, but I can tell you how to install it on Arch Linux:
 
 1. Install and enable `lightdm` and `lightdm-webkit-greeter`
-2. add 
-3`[SeatDefaults]
+2. 
+and changing the greeter-session value to lightdm-webkit-greeter. lightdm.conf should have:
+
+<pre>
+[SeatDefaults]
 greeter-session=lightdm-webkit-greeter
-allow-guest=false` 
-in `/etc/lightdm/lightdm.conf`
+allow-guest=false
+</pre>
 
 
 3. In the terminal, `cd` to `/usr/share/lightdm-webkit/themes/`
