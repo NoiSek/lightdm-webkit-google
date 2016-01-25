@@ -37,6 +37,9 @@ allow-guest=false
 3. In the terminal, `cd` to `/usr/share/lightdm-webkit/themes/`
 4. Clone this repository here, it should create a folder called `lightdm-webkit-google`
 5. Enable the theme in your `/etc/lightdm/lightdm-webkit-greeter.conf`
+<pre>
+webkit-theme=lightdm-webkit-google
+</pre>
 
 ### Setting your own user picture
 
