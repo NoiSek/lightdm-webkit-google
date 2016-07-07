@@ -25,13 +25,12 @@ var login = (function (lightdm, $) {
 
         find_and_display_user_picture(idx);
 
-        if(lightdm._username){
-            lightdm.cancel_authentication();
-        }
-
         selected_user = lightdm.users[idx].name;
         if(selected_user !== null) {
-            window.start_authentication(selected_user);
+            if (lightdm.in_authentication === true) {
+              lightdm.cancel_authentication();    
+            }  
+            lightdm.authenticate(selected_user);
         }
 
         $pass.trigger('focus');
@@ -44,33 +43,25 @@ var login = (function (lightdm, $) {
     };
 
     // Functions that lightdm needs
-    window.start_authentication = function (username) {
-        lightdm.cancel_timed_login();
-        lightdm.start_authentication(username);
-    };
-    window.provide_secret = function () {
+    window.respond = function () {
         password = $pass.val() || null;
 
         if(password !== null) {
-            lightdm.provide_secret(password);
+            lightdm.respond(password);
         }
     };
     window.authentication_complete = function () {
         if (lightdm.is_authenticated) {
-            show_prompt('Logged in');
-            lightdm.login(
-                lightdm.authentication_user,
-                lightdm.default_session
-            );
+            lightdm.start_session_sync(lightdm.default_session);
         }
     };
     // These can be used for user feedback
     window.show_error = function (e) {
-        console.log('Error: ' + e);
+        alert('Error: ' + e);
 
     };
     window.show_prompt = function (e) {
-        console.log('Prompt: ' + e);
+        alert('Prompt: ' + e);
     };
 
     // exposed outside of the closure
@@ -87,7 +78,7 @@ var login = (function (lightdm, $) {
 
             $('form').on('submit', function (e) {
                 e.preventDefault();
-                window.provide_secret();
+                window.respond();
             });
         });
     };
